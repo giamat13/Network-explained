@@ -51,32 +51,32 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .cur .pg{background:var(--green);border-color:var(--green);color:#04210f;transform:scale(1.15);box-shadow:0 0 0 5px #25d36630}
 
 /* main layout */
-.main{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:16px;align-items:start}
-.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:12px}
+.main{display:flex;flex-direction:column;gap:12px}
 
 /* scene */
-.scene{position:relative;height:500px;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+.scene{position:relative;height:620px;border:1px solid var(--line);border-radius:18px;overflow:hidden;
   background:var(--scene) radial-gradient(#16223f 1px,transparent 1.2px) 0 0/24px 24px}
 #map{position:absolute;inset:0;width:100%;height:100%;display:block;transition:opacity .45s;touch-action:pan-y}
-.closeup{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:56px 20px 20px;opacity:0;pointer-events:none;transition:opacity .45s;overflow:auto}
+.closeup{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:108px 20px 150px;opacity:0;pointer-events:none;transition:opacity .45s;overflow:auto}
 .scene.is-closeup #map{opacity:0;pointer-events:none}
 .scene.is-closeup .closeup{opacity:1;pointer-events:auto}
-.chips{position:absolute;top:12px;left:12px;display:flex;flex-wrap:wrap;gap:6px;z-index:3;max-width:calc(100% - 150px)}
+
 .chip{background:#0d1730e6;border:1px solid var(--line2);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:600;white-space:nowrap}
 .chip b{font-family:var(--mono);color:var(--green)}
-.tools{position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:3}
+.tools{display:flex;gap:6px;flex:none}
 .tool{background:#0d1730e6;border:1px solid var(--line2);border-radius:10px;padding:5px 10px;font-size:13px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
 .tool:hover{border-color:var(--cyan)}
 .tool svg{width:15px;height:15px}
-.hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:13px;color:var(--muted);background:#0d1730cc;border-radius:999px;padding:4px 12px;white-space:nowrap;z-index:2;pointer-events:none}
-.info{position:absolute;left:12px;bottom:12px;width:min(370px,calc(100% - 24px));background:#0f1a31f5;border:1px solid var(--line2);border-radius:14px;padding:14px 16px;z-index:4;box-shadow:0 12px 40px #0009;animation:up .25s ease}
+.hintchip{color:var(--muted);font-weight:500;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(-2px)}}
+.info{position:absolute;left:12px;top:104px;width:min(370px,calc(100% - 24px));background:#0f1a31f5;border:1px solid var(--line2);border-radius:14px;padding:14px 16px;z-index:4;box-shadow:0 12px 40px #0009;animation:up .25s ease}
 .info-h{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .info-h svg{width:30px;height:30px;color:var(--c)}
 .info-h b{flex:1;font-size:16px}
 .info p{margin:0;font-size:14.5px}
 .info .tech{margin-top:8px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
 .x{border:1px solid var(--line2);background:var(--panel);border-radius:9px;width:32px;height:32px;font-size:18px;line-height:1;padding:0;flex:none}
-.overlay{position:absolute;right:12px;top:52px;z-index:3;width:min(270px,calc(100% - 24px))}
+.overlay{position:absolute;right:12px;top:104px;z-index:3;width:min(270px,calc(100% - 24px))}
 .ov-card{background:#0f1a31f2;border:1px solid var(--line2);border-radius:14px;padding:12px 14px;animation:up .35s ease}
 .ov-card h4{margin:0 0 8px;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .ov-row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:14.5px;border-top:1px solid var(--line)}
@@ -151,6 +151,7 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .fl rect{fill:#0c1731;stroke:var(--fc);stroke-width:1.5}
 .fl text{font:600 15px var(--sans);fill:#f1f6ff;dominant-baseline:central;text-anchor:middle}
 .fl-info{--fc:var(--cyan)} .fl-ttl{--fc:var(--amber)} .fl-ok{--fc:var(--green)} .fl-push{--fc:var(--orange)} .fl-meta{--fc:var(--teal)}
+.fl-hack{--fc:var(--red)} .fl-hackwarn{--fc:var(--orange)}
 @keyframes flup{0%{opacity:0;transform:translateY(8px)}12%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-8px)}}
 
 /* close-ups */
@@ -180,7 +181,7 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .tk.blue{color:var(--blue)}
 .lock-row{display:flex;align-items:center;gap:16px;width:100%;justify-content:center;flex-wrap:wrap}
 .msgbox{flex:1;min-width:170px;max-width:260px;min-height:92px;background:#0d1730;border:1px solid var(--line2);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
-.msgbox small{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.msgbox small{font-size:26px;line-height:1}
 .msgbox span{font-size:22px;font-weight:700;overflow-wrap:anywhere}
 .msgbox.cipher span{font:600 14px/1.45 var(--mono);color:var(--green);word-break:break-all}
 .biglock{width:54px;height:54px;color:var(--amber);flex:none}
@@ -206,6 +207,7 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .ly-h span{font-size:14px;color:#cdd6ea}
 .ly-h em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--muted);flex-basis:100%}
 .ly-h .who-r{flex-basis:100%;font-size:12.5px;color:var(--muted)}
+.ly-bytes{font:700 12px var(--mono);background:#0a1224;border:1px solid var(--line2);border-radius:7px;padding:1px 7px;color:var(--green)}
 .ly-link{--lc:var(--violet)} .ly-ip{--lc:var(--sky)} .ly-tcp{--lc:var(--teal)} .ly-noise{--lc:var(--pink)} .ly-sig{--lc:var(--green)} .ly-meta{--lc:var(--amber)} .ly-app{--lc:#e2e8f5}
 
 /* caption */
@@ -228,9 +230,60 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .seg button:hover{color:var(--text)}
 .seg button.on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
 .seg.mini button{padding:4px 9px;font-size:12.5px}
-.controls{display:flex;gap:8px}
-.controls .btn{flex:1}
-.controls .btn.primary{flex:1.5}
+.controls{display:flex;gap:10px;justify-content:center}
+.controls .btn{min-width:130px}
+.controls .btn.primary{min-width:180px}
+
+
+/* scene header, contextual switch and picture cards */
+.sc-top{position:absolute;top:12px;left:14px;right:12px;display:flex;align-items:center;gap:12px;z-index:3}
+.sc-title{flex:1;min-width:0;display:flex;align-items:center;gap:12px;font-size:24px;font-weight:800;line-height:1.2;text-shadow:0 2px 12px #000}
+.sc-num{width:36px;height:36px;border-radius:50%;background:var(--green);color:#04210f;display:grid;place-items:center;font-size:17px;flex:none}
+.sc-sub{position:absolute;top:60px;left:14px;right:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;z-index:3}
+.scene-ctl:empty{display:none}
+.scene-ctl .seg{background:#0a1224e6}
+.scene-ctl .seg button{font-size:14.5px;padding:7px 14px}
+.beats{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:stretch;gap:6px;z-index:3;max-width:calc(100% - 24px)}
+.beat{width:124px;background:#0d1730f2;border:2px solid var(--line2);border-radius:16px;padding:10px 6px 9px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;opacity:.22;filter:grayscale(1);transition:opacity .4s,transform .4s,border-color .4s,box-shadow .4s}
+.beat.on{opacity:1;filter:none}
+.beat.cur{border-color:var(--green);box-shadow:0 0 0 5px #25d36628,0 10px 30px #0008;transform:translateY(-6px) scale(1.04)}
+.bi{font-size:32px;line-height:1;height:38px;display:flex;align-items:center;justify-content:center}
+.bi .tk{width:36px;height:26px}
+.bl{font-size:13.5px;font-weight:700;line-height:1.25;overflow-wrap:anywhere}
+.bsep{align-self:center;color:var(--dim);font-size:22px}
+.bx{position:relative;display:inline-block}
+.bx i{position:absolute;right:-10px;bottom:-4px;width:19px;height:19px;border-radius:50%;font-size:12px;font-style:normal;font-weight:900;display:grid;place-items:center;border:2px solid #0d1730}
+.bx i.ok{background:var(--green);color:#04210f}
+.bx i.no{background:var(--red);color:#2a0606}
+.split{display:flex;align-items:center;gap:12px;opacity:0;transition:opacity .5s;font-size:15px}
+.split.show{opacity:1}
+.sp-ic{font-size:40px}
+.sp-arr{font-size:24px;color:var(--muted)}
+.sp-grid{display:grid;grid-template-columns:repeat(8,12px);gap:4px}
+.sp-grid i{width:12px;height:12px;border-radius:3px;background:var(--green);opacity:0}
+.split.show .sp-grid i{animation:pop .3s ease forwards}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+.split b{font-size:20px;color:var(--green)}
+#totalRow{gap:10px;font-size:13.5px;color:var(--muted)}
+#totalRow .sp-ic{font-size:26px}
+#totalRow b{font-size:22px}
+.chip #dataVal, #dataVal{color:var(--green)}
+.unl{font-size:44px;line-height:1}
+.hacker-wrap{display:flex;align-items:center;gap:10px;background:#2a0d0d;border:2px solid var(--red);border-radius:14px;padding:10px 16px;font-weight:700;font-size:15px;opacity:0;animation:up .4s ease forwards}
+.hacker-wrap .hk{font-size:28px;animation:shake 1.4s ease-in-out infinite}
+.hacker-wrap.blocked{border-color:var(--green);background:#0f2a1d}
+.hacker-wrap.blocked .hk{animation:none;filter:grayscale(1) opacity(.6)}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.hk-note{flex-basis:100%;color:var(--orange);font-weight:600}
+.more{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.more summary{cursor:pointer;font-weight:600;color:var(--muted)}
+.more[open] summary{margin-bottom:10px}
+.more .caption{border:0;padding:0;background:none}
+.cap-techp{margin:10px 0 0;font-size:14.5px;color:#cbd4e8}
+.cap-techp b{color:var(--cyan)}
+#map .nt{display:none}
+#map.tech .nt{display:inline}
+#map.tech .ns{display:none}
 
 /* options + modal */
 .backdrop{position:fixed;inset:0;background:#02050cbf;z-index:50;display:grid;place-items:center;padding:16px;animation:fade .2s}
@@ -250,8 +303,6 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
 
 @media (max-width:980px){
-  .main{grid-template-columns:1fr}
-  .side{position:static}
 }
 @media (max-width:640px){
   .app{padding:12px 12px 92px}
@@ -259,8 +310,8 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
   .top .btn .lbl{display:none}
   .pg{width:24px;height:24px;font-size:11px;border-width:1.5px}
   .progress li:not(:last-child)::after{margin:0 2px}
-  .scene{height:380px;border-radius:14px}
-  .closeup{padding:48px 12px 12px}
+  .scene{height:540px;border-radius:14px}
+  .closeup{padding:118px 10px 128px}
   .phone{width:210px;height:270px}
   .cu{gap:10px}
   .cu-hint{font-size:13px}
@@ -270,7 +321,17 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
   .controls{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#0a1122f0;backdrop-filter:blur(10px);border-top:1px solid var(--line2)}
   .tool .lbl{display:none}
   .msgbox{min-width:130px}
-  .overlay{top:auto;bottom:12px;right:12px}
+  .overlay{top:120px}
+  .info{top:120px}
+  .sc-title{font-size:17px;gap:8px}
+  .sc-num{width:28px;height:28px;font-size:14px}
+  .beats{gap:4px;left:8px;right:8px;transform:none;bottom:8px}
+  .beat{width:auto;flex:1 1 0;min-width:0;padding:6px 3px;border-radius:11px}
+  .bi{font-size:23px;height:28px}
+  .bl{font-size:11px}
+  .bsep{display:none}
+  .controls .btn{min-width:0;flex:1}
+  .controls .btn.primary{flex:1.5}
 }
 @media (prefers-reduced-motion:reduce){
   .lnk .flow,.dot .halo{animation:none!important}
@@ -314,24 +375,33 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
     <section class="scene" id="scene" aria-label="Animation">
       <svg id="map" role="img" aria-label="Map of the message's path"></svg>
       <div class="closeup" id="closeup"></div>
-      <div class="chips"><span class="chip" id="chipMs" hidden>⏱ <b id="msVal">0 ms</b></span><span class="chip" id="chipHops" hidden>Routers passed: <b id="hopVal">0</b></span></div>
-      <div class="tools">
-        <button class="tool" id="wholeBtn" hidden><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl" id="wholeLbl">Whole map</span></button>
-        <button class="tool" id="replayBtn" aria-label="Replay this step"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lbl">Replay</span></button>
+      <div class="sc-top">
+        <div class="sc-title"><span class="sc-num" id="scNum">1</span><span id="scTitle"></span></div>
+        <div class="tools">
+          <button class="tool" id="pktTool" hidden aria-label="Look inside the envelope">🔍<span class="lbl">Look inside</span></button>
+          <button class="tool" id="wholeBtn" hidden><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl" id="wholeLbl">Whole map</span></button>
+          <button class="tool" id="replayBtn" aria-label="Replay this step"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lbl">Replay</span></button>
+        </div>
+      </div>
+      <div class="sc-sub">
+        <span class="chip" id="chipMs" hidden title="Time since you tapped Send">⏱ <b id="msVal">0</b></span>
+        <span class="chip" id="chipHops" hidden title="Sorting stations passed">🔀 <b id="hopVal">0</b></span>
+        <span class="chip" id="chipData" hidden title="Data used from your plan">📶 <b id="dataVal">0 B</b></span>
+        <span class="chip hintchip" id="hint" hidden>👆 Tap any icon</span>
+        <div class="scene-ctl" id="sceneCtl"></div>
       </div>
       <div class="overlay" id="overlay"></div>
-      <div class="hint" id="hint" hidden>Tap any device to see what it does</div>
       <div class="info" id="info" role="dialog" aria-labelledby="infoTitle" hidden></div>
+      <div class="beats" id="beats" aria-live="polite"></div>
     </section>
 
-    <div class="side">
-      <article class="caption" id="caption" aria-live="polite"></article>
-      <div class="controls">
-        <button class="btn" id="prevBtn" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Back</button>
-        <button class="btn primary" id="playBtn">▶ Play all</button>
-        <button class="btn" id="nextBtn" aria-label="Next">Next<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      </div>
+    <div class="controls">
+      <button class="btn" id="prevBtn" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Back</button>
+      <button class="btn primary" id="playBtn">▶ Play all</button>
+      <button class="btn" id="nextBtn" aria-label="Next">Next<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
+
+    <details class="more"><summary>📖 Read the explanation</summary><article class="caption" id="caption"></article></details>
   </div>
 
   <footer>A simplified teaching tool, not affiliated with WhatsApp or Meta. Routes and timings are typical examples; IP addresses are from documentation ranges.</footer>
@@ -345,6 +415,8 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
     <div class="opt"><span class="lbl">Your friend's phone uses</span><div class="seg" data-bind="friendNet"><button data-val="wifi">Wi-Fi</button><button data-val="cell">Cellular (4G/5G)</button></div></div>
     <div class="opt"><span class="lbl">Your friend is</span><div class="seg" data-bind="online"><button data-val="on">Online</button><button data-val="off">Offline / app closed</button></div></div>
     <div class="opt"><span class="lbl">Explanations</span><div class="seg" data-bind="mode"><button data-val="simple">Simple</button><button data-val="tech">Technical</button></div></div>
+    <div class="opt hacker-opt"><span class="lbl">🕵️ Simulate a hacker watching?</span><div class="seg" data-bind="hacker"><button data-val="off">No</button><button data-val="on">Yes</button></div></div>
+    <div class="opt hacker-opt" id="wifiSecOpt" hidden><span class="lbl">Home Wi-Fi password</span><div class="seg" data-bind="wifiSec"><button data-val="secured">🔒 Secured (WPA2)</button><button data-val="open">🔓 Open (none)</button></div></div>
     <div class="opt"><label for="speed">Animation speed: <b id="speedOut">1×</b></label><input type="range" id="speed" min="0.25" max="3" step="0.25" value="1"></div>
   </div>
 </div>
@@ -374,9 +446,24 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 const fmtMs = v => (v < 10 ? v.toFixed(1) : Math.round(v)) + ' ms';
 const clock = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
 const utf8len = s => new TextEncoder().encode(s).length;
+/* Rough, teaching-only sizes for each envelope, so the growing weight of all the
+   headers around a 2-character message is visible, not just told. */
+const HDR = { noise: 16, tcp: 20, ip: 20, linkWifi: 36, linkCell: 18 };
+function cipherBytesRaw(msg) { return 1 + 33 + Math.ceil((utf8len(msg) + 1) / 16) * 16 + 8; }
+function linkOverhead(net) { return net === 'wifi' ? HDR.linkWifi : HDR.linkCell; }
+function cumBytes(k, net) { // k: 0=locked note only, 1=+extra envelope, 2=+slip, 3=+address label, 4=+outer envelope
+  const c = cipherBytesRaw(state.msg);
+  const vals = [c, c + HDR.noise, c + HDR.noise + HDR.tcp, c + HDR.noise + HDR.tcp + HDR.ip, c + HDR.noise + HDR.tcp + HDR.ip + linkOverhead(net || state.myNet)];
+  return vals[k];
+}
+function packetTotalBytes(net) { return cumBytes(4, net); }
+function fmtBytes(n) { return n < 1000 ? Math.round(n) + ' B' : (n / 1000).toFixed(1) + ' KB'; }
+/* How much data this message has used so far, at the start of step i. Grows once
+   the envelopes are packed, and again as the delivery receipts travel back. */
+function dataAt(i) { return i <= 1 ? 0 : i === 2 ? cumBytes(0) : packetTotalBytes(state.myNet); }
 
 /* ---------------- state ---------------- */
-const state = { step: 0, msg: 'Hi!', cipher: '', mode: 'simple', myNet: 'wifi', friendNet: 'wifi', online: true, speed: 1, playing: false, paused: false, overview: false };
+const state = { step: 0, msg: 'Hi!', cipher: '', mode: 'simple', myNet: 'wifi', friendNet: 'wifi', online: true, speed: 1, playing: false, paused: false, overview: false, hacker: false, openWifi: false };
 const tech = () => state.mode === 'tech';
 const M = () => esc(state.msg);
 const SERVER = '198.51.100.60';
@@ -391,45 +478,45 @@ const frAddr = () => state.friendNet === 'wifi' ? ADDR.wifiB : ADDR.cellB;
 
 /* ---------------- devices ---------------- */
 const DEV = {
-  phoneA: { icon: 'phone',  cat: 'dev',  label: ['Your phone'] },
-  wifiA:  { icon: 'wifi',   cat: 'acc',  label: ['Wi-Fi router'] },
-  modemA: { icon: 'modem',  cat: 'acc',  label: ['Modem'] },
-  ispA:   { icon: 'cloud',  cat: 'isp',  label: ['Your internet', 'provider'] },
-  towerA: { icon: 'tower',  cat: 'acc',  label: ['Cell tower'] },
-  coreA:  { icon: 'core',   cat: 'isp',  label: ['Mobile', 'network'] },
-  dns:    { icon: 'dns',    cat: 'dns',  label: ['DNS', '“phone book”'] },
-  r1:     { icon: 'router', cat: 'net',  label: ['Router'] },
-  ixp:    { icon: 'ixp',    cat: 'net',  label: ['Exchange', 'point (IXP)'] },
-  r2:     { icon: 'router', cat: 'net',  label: ['Router'] },
-  lb:     { icon: 'lb',     cat: 'meta', label: ['Load', 'balancer'] },
-  chat:   { icon: 'server', cat: 'meta', label: ['Chat', 'server'] },
-  push:   { icon: 'bell',   cat: 'push', label: ['Apple / Google', 'push service'] },
-  rB:     { icon: 'router', cat: 'net',  label: ['Router'] },
-  ispB:   { icon: 'cloud',  cat: 'isp',  label: ["Friend's", 'provider'] },
-  wifiB:  { icon: 'wifi',   cat: 'acc',  label: ["Friend's", 'Wi-Fi router'] },
-  coreB:  { icon: 'core',   cat: 'isp',  label: ["Friend's", 'mobile network'] },
-  towerB: { icon: 'tower',  cat: 'acc',  label: ['Cell tower'] },
-  phoneB: { icon: 'phone',  cat: 'dev',  label: ["Friend's", 'phone'] }
+  phoneA: { icon: "phone",  cat: "dev",  label: ["Your phone"],                     tl: ["Your phone"] },
+  wifiA:  { icon: "wifi",   cat: "acc",  label: ["Home Wi-Fi", "box"],               tl: ["Wi-Fi router"] },
+  modemA: { icon: "modem",  cat: "acc",  label: ["Modem"],                           tl: ["Modem"] },
+  ispA:   { icon: "cloud",  cat: "isp",  label: ["Internet", "company"],             tl: ["ISP"] },
+  towerA: { icon: "tower",  cat: "acc",  label: ["Cell tower"],                      tl: ["Base station"] },
+  coreA:  { icon: "core",   cat: "isp",  label: ["Phone", "company"],                tl: ["Carrier core"] },
+  dns:    { icon: "dns",    cat: "dns",  label: ["Internet", "phone book"],          tl: ["DNS resolver"] },
+  r1:     { icon: "router", cat: "net",  label: ["Sorting", "station"],              tl: ["Router"] },
+  ixp:    { icon: "ixp",    cat: "net",  label: ["Meeting", "point"],                tl: ["Exchange point", "(IXP)"] },
+  r2:     { icon: "router", cat: "net",  label: ["Sorting", "station"],              tl: ["Router"] },
+  lb:     { icon: "lb",     cat: "meta", label: ["Front", "desk"],                   tl: ["Load", "balancer"] },
+  chat:   { icon: "server", cat: "meta", label: ["WhatsApp", "computer"],            tl: ["Chat", "server"] },
+  push:   { icon: "bell",   cat: "push", label: ["Apple / Google", "doorbell"],      tl: ["APNs / FCM"] },
+  rB:     { icon: "router", cat: "net",  label: ["Sorting", "station"],              tl: ["Router"] },
+  ispB:   { icon: "cloud",  cat: "isp",  label: ["Friend’s", "internet company"],    tl: ["Friend’s ISP"] },
+  wifiB:  { icon: "wifi",   cat: "acc",  label: ["Friend’s", "Wi-Fi box"],           tl: ["Friend’s", "Wi-Fi router"] },
+  coreB:  { icon: "core",   cat: "isp",  label: ["Friend’s", "phone company"],       tl: ["Friend’s", "carrier core"] },
+  towerB: { icon: "tower",  cat: "acc",  label: ["Cell tower"],                      tl: ["Base station"] },
+  phoneB: { icon: "phone",  cat: "dev",  label: ["Friend’s", "phone"],               tl: ["Friend’s", "phone"] }
 };
-const name = id => DEV[id].label.join(' ').replace('“phone book”', '');
+const name = id => (tech() ? DEV[id].tl : DEV[id].label).join(' ');
 const INFO = {
-  phoneA: ['Where your message starts. WhatsApp, and the keys that lock your messages, live here.', 'Holds your Signal private keys and keeps a long-lived encrypted connection to WhatsApp’s servers.'],
-  wifiA: ['Creates your home Wi-Fi. It catches your phone’s radio waves and passes packets toward the internet.', `Wi-Fi access point + NAT router: swaps your private IP (${ADDR.wifiA.priv}) for your home’s public IP. Lowers the TTL by 1.`],
-  modemA: ['Connects your home to your provider’s cable, fiber or phone line.', 'Cable modem (DOCSIS), fiber ONT or DSL modem. Works below the IP layer, so the TTL doesn’t change.'],
-  ispA: ['The company you pay for internet. It links your home to the rest of the internet.', 'Access and aggregation routers. They see addresses and sizes, but WhatsApp content is encrypted.'],
-  towerA: ['Picks up radio signals from nearby phones and sends their data into the mobile network.', 'eNodeB (4G) or gNodeB (5G). Tunnels packets to the core with GTP-U, so it isn’t an IP hop.'],
-  coreA: ['Your mobile carrier’s central network. It connects phones to the internet.', 'EPC or 5G Core. The P-GW/UPF gateway ends the tunnel, applies carrier-grade NAT and routes to the internet.'],
-  dns: ['The internet’s phone book: it turns a name into a number (an IP address).', 'A recursive resolver (your provider’s, or a public one like 1.1.1.1). It asks root → .net → WhatsApp’s name servers and caches the answer.'],
-  r1: ['Like a sorting center: it reads the address and sends the packet one step closer.', 'Looks up the destination in its forwarding table (routes learned via BGP), lowers the TTL by 1 and forwards.'],
-  ixp: ['A building where many networks plug into one big switch to hand traffic straight to each other.', 'A shared layer-2 fabric for peering (e.g. DE-CIX, AMS-IX). It switches rather than routes, so the TTL doesn’t change.'],
-  lb: ['Like a receptionist: it sends each visitor to a chat server that isn’t busy.', 'Layer-4/7 load balancer using hashing and health checks; keeps each connection on the same server.'],
-  chat: ['Works out who the message is for and delivers it. It can’t read the message itself.', 'Removes the Noise transport layer, reads routing metadata and forwards the Signal ciphertext. Stores it if the recipient is offline.'],
-  push: ['Apple’s and Google’s “doorbell” services. They can wake an app on a sleeping phone.', 'APNs (iPhone) and FCM (Android). The phone keeps one low-power connection to them for all apps.'],
-  ispB: ['Your friend’s internet provider. It sends the packet down the line to their home.', 'Routes to the home’s public IP over cable, fiber or DSL.'],
-  wifiB: ['Your friend’s router. It works out which device the packet is for and sends it over Wi-Fi.', `Reverses the NAT mapping (public IP → ${ADDR.wifiB.priv}) and sends an 802.11 frame. (Modem not shown.)`],
-  coreB: ['Your friend’s mobile network. It knows which tower their phone is near.', 'The gateway reverses carrier NAT and tunnels the packet (GTP-U) to the right base station.'],
-  towerB: ['Sends the packet to your friend’s phone over radio waves.', 'The base station transmits it on the phone’s radio link.'],
-  phoneB: ['Holds the only key that can unlock your message.', 'Holds the recipient’s Signal private keys; decrypts, then sends delivery and read receipts.']
+  phoneA: ['Where your message starts. WhatsApp lives here, and so does the key that locks your messages.', 'Holds your Signal private keys and keeps a long-lived encrypted connection to WhatsApp’s servers.'],
+  wifiA: ['The Wi-Fi box in your home. It catches what your phone sends through the air and passes it on.', `Wi-Fi access point + NAT router: swaps your private IP (${ADDR.wifiA.priv}) for your home’s public IP. Lowers the TTL by 1.`],
+  modemA: ['Connects your home to the cable that runs to your internet company.', 'Cable modem (DOCSIS), fiber ONT or DSL modem. Works below the IP layer, so the TTL doesn’t change.'],
+  ispA: ['The company you pay for internet. It connects your home to the rest of the world.', 'Access and aggregation routers. They see addresses and sizes, but WhatsApp content is encrypted.'],
+  towerA: ['Picks up what nearby phones send through the air and passes it to the phone company.', 'eNodeB (4G) or gNodeB (5G). Tunnels packets to the core with GTP-U, so it isn’t an IP hop.'],
+  coreA: ['Your phone company’s central computers. They connect your phone to the internet.', 'EPC or 5G Core. The P-GW/UPF gateway ends the tunnel, applies carrier-grade NAT and routes to the internet.'],
+  dns: ['The internet’s phone book. It tells your phone where WhatsApp’s computers are.', 'A recursive resolver (your provider’s, or a public one like 1.1.1.1). It asks root → .net → WhatsApp’s name servers and caches the answer.'],
+  r1: ['Like a sorting station at the post office: it reads the address label and sends the message one step closer.', 'Looks up the destination in its forwarding table (routes learned via BGP), lowers the TTL by 1 and forwards.'],
+  ixp: ['A building where many internet companies meet to pass messages straight to each other.', 'A shared layer-2 fabric for peering (e.g. DE-CIX, AMS-IX). It switches rather than routes, so the TTL doesn’t change.'],
+  lb: ['Like a front desk: it sends each message to a WhatsApp computer that isn’t busy.', 'Layer-4/7 load balancer using hashing and health checks; keeps each connection on the same server.'],
+  chat: ['A WhatsApp computer. It sees who the message is for and passes it on, but it can’t open it.', 'Removes the Noise transport layer, reads routing metadata and forwards the Signal ciphertext. Stores it if the recipient is offline.'],
+  push: ['Apple’s and Google’s “doorbell”. It can wake up an app on a sleeping phone.', 'APNs (iPhone) and FCM (Android). The phone keeps one low-power connection to them for all apps.'],
+  ispB: ['Your friend’s internet company. It sends the message along the cable to their home.', 'Routes to the home’s public IP over cable, fiber or DSL.'],
+  wifiB: ['The Wi-Fi box in your friend’s home. It finds your friend’s phone and sends the message through the air.', `Reverses the NAT mapping (public IP → ${ADDR.wifiB.priv}) and sends an 802.11 frame. (Modem not shown.)`],
+  coreB: ['Your friend’s phone company. It knows which cell tower their phone is near.', 'The gateway reverses carrier NAT and tunnels the packet (GTP-U) to the right base station.'],
+  towerB: ['Sends the message through the air to your friend’s phone.', 'The base station transmits it on the phone’s radio link.'],
+  phoneB: ['Your friend’s phone. It has the only key that can unlock your message.', 'Holds the recipient’s Signal private keys; decrypts, then sends delivery and read receipts.']
 };
 INFO.r2 = INFO.r1; INFO.rB = INFO.r1;
 
@@ -463,6 +550,7 @@ function wavePath(x1, y1, x2, y2) {
 function buildMap() {
   svg = $('#map');
   svg.innerHTML = '<defs><filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5"/></filter></defs>';
+  svg.classList.toggle('tech', tech());
   world = S('g', {}, svg);
   pos = {}; links = {}; nodeEls = {};
   const seq = pathIds();
@@ -475,9 +563,9 @@ function buildMap() {
   const r2 = pos.r2, lb = pos.lb, chat = pos.chat;
   S('rect', { x: r2.x + 70, y: 40, width: lb.x - r2.x - 190, height: 170, rx: 22, class: 'ocean' }, deco);
   for (let k = 0; k < 4; k++) S('path', { d: `M${r2.x + 85} ${95 + k * 28} ` + 'q9 -5 18 0 t18 0 '.repeat(Math.floor((lb.x - r2.x - 220) / 36)), class: 'oceanw' }, deco);
-  S('text', { x: (r2.x + lb.x) / 2 - 50, y: 235, class: 'oceanl' }, deco).textContent = 'Ocean · undersea fiber cable';
+  S('text', { x: (r2.x + lb.x) / 2 - 50, y: 235, class: 'oceanl' }, deco).textContent = '🌊 Cable on the sea floor';
   S('rect', { x: lb.x - 85, y: -120, width: chat.x - lb.x + 170, height: 250, rx: 22, class: 'dcbox' }, deco);
-  S('text', { x: (lb.x + chat.x) / 2, y: -90, class: 'dct' }, deco).textContent = 'WHATSAPP DATA CENTER';
+  S('text', { x: (lb.x + chat.x) / 2, y: -90, class: 'dct' }, deco).textContent = '🏢 WHATSAPP';
 
   const pairs = [];
   for (let i = 0; i < seq.length - 1; i++) pairs.push([seq[i], seq[i + 1], kindOf(seq[i], seq[i + 1])]);
@@ -502,7 +590,8 @@ function buildMap() {
     S('circle', { r: 42, class: 'ring' }, g);
     S('circle', { r: 34, class: 'bg' }, g);
     S('use', { href: '#i-' + n.icon, x: -21, y: -21, width: 42, height: 42, class: 'ic' }, g);
-    n.label.forEach((l, i) => { S('text', { x: 0, y: 60 + i * 19, class: 'nl' }, g).textContent = l; });
+    n.label.forEach((l, i) => { S('text', { x: 0, y: 60 + i * 19, class: 'nl ns' }, g).textContent = l; });
+    n.tl.forEach((l, i) => { S('text', { x: 0, y: 60 + i * 19, class: 'nl nt' }, g).textContent = l; });
     g.addEventListener('click', () => openInfo(id));
     g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openInfo(id); } });
     nodeEls[id] = g;
@@ -569,11 +658,12 @@ function frame(ids, opt = {}) {
   const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
   const W = scene.clientWidth || 800, H = scene.clientHeight || 500, pad = 130;
   const maxW = opt.overview ? Infinity : W / (W < 520 ? 0.74 : 0.62);
-  let w = Math.max(Math.min(950, maxW), maxX - minX + pad * 2, ((maxY - minY) + 330) * W / H);
+  const Hv = Math.max(200, H - 250); // room left between the title bar and the picture cards
+  let w = Math.max(Math.min(950, maxW), maxX - minX + pad * 2, ((maxY - minY) + 330) * W / Hv);
   camFollow = !opt.overview && (opt.follow || w > maxW);
   if (opt.follow) w = 1000;
   camT.w = Math.min(w, maxW);
-  camT.y = (minY + maxY) / 2 + 30;
+  camT.y = (minY + maxY) / 2 + 30 + 25 * camT.w / W;
   camT.x = camFollow ? minX - pad + camT.w / 2 : (minX + maxX) / 2;
   if (opt.instant) Object.assign(cam, camT);
 }
@@ -614,16 +704,6 @@ function tween(ms, fn, opt = {}) {
   });
 }
 const wait = (ms, opt) => tween(ms, null, opt);
-/* How long a step's caption needs to sit on screen so it can be read, roughly
-   250ms per word (~240 wpm) with sensible floor and ceiling. Independent of the
-   speed slider and of the step's own pace, and grows in Technical mode. */
-function wordCount(i) {
-  const st = STEPS[i];
-  let txt = st.simple();
-  if (tech()) txt += ' ' + st.tech();
-  return txt.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
-}
-function readHold(i) { return Math.max(1300, Math.min(5200, wordCount(i) * 250)); }
 
 /* routes, with typical one-way latencies in ms */
 const Lg = (from, to, ms, o = {}) => Object.assign({ from, to, ms, dot: 'msg' }, o);
@@ -703,10 +783,12 @@ async function run(items, hk = {}) {
 }
 
 function renderHud() {
-  $('#msVal').textContent = fmtMs(hud.ms);
+  $('#msVal').textContent = tech() ? fmtMs(hud.ms) : secs(hud.ms) + ' sec';
   $('#hopVal').textContent = hud.hops;
   $('#chipMs').hidden = state.step < 1;
   $('#chipHops').hidden = !(state.step >= 3 && state.step <= 8);
+  $('#dataVal').textContent = fmtBytes(state.data);
+  $('#chipData').hidden = state.step < 2;
   const t = $('.ttlb text', msgDot);
   if (t) t.textContent = 'TTL ' + hud.ttl;
 }
@@ -771,277 +853,372 @@ function packetLayers() {
   const src = up ? (hud.natA ? a.pub : a.priv) : SERVER, dst = up ? SERVER : (hud.natB ? b.priv : b.pub);
   const ports = up ? `${hud.natA ? a.nat : a.port} → 443` : `443 → ${hud.natB ? b.port : b.nat}`;
   return [
-    { k: 'link', n: 'Outer envelope', s: linkLeg(hud.pos, hud.side), who: 'Only the next device. It’s replaced at every stop.', t: hud.pos === 'phoneA' ? (state.myNet === 'wifi' ? '802.11 frame · MAC addresses' : 'LTE / 5G NR radio frame') : 'link-layer frame, rebuilt at every hop' },
-    { k: 'ip', n: 'Address label (IP)', s: up ? 'To: WhatsApp’s server' : 'To: your friend’s phone', who: 'Every router on the way', t: `${src} → ${dst} · TTL ${hud.ttl}` },
-    { k: 'tcp', n: 'Delivery slip (TCP)', s: 'Which app, and which page', who: up ? 'Your phone and WhatsApp’s server' : 'WhatsApp’s server and your friend’s phone', t: `ports ${ports} · seq 2847193005` },
-    { k: 'noise', n: 'WhatsApp’s envelope', s: 'Protects the trip to and from the server', who: 'The phone and WhatsApp’s server', t: 'Noise protocol · AES-GCM' },
-    { k: 'sig', n: 'Your locked message', s: '🔒 ' + short(18), who: 'Only your friend’s phone', t: 'Signal protocol · AES-256 + HMAC-SHA256' }
+    { k: 'link', n: 'Outer envelope', nt: 'Link-layer frame', s: linkLeg(hud.pos, hud.side), who: 'Only the next device. It’s replaced at every stop.', t: hud.pos === 'phoneA' ? (state.myNet === 'wifi' ? '802.11 frame · MAC addresses' : 'LTE / 5G NR radio frame') : 'link-layer frame, rebuilt at every hop', bytes: cumBytes(4, up ? state.myNet : state.friendNet) },
+    { k: 'ip', n: 'Address label', nt: 'IP header', s: up ? 'To: WhatsApp’s server' : 'To: your friend’s phone', who: 'Every sorting station on the way', t: `${src} → ${dst} · TTL ${hud.ttl}`, bytes: cumBytes(3) },
+    { k: 'tcp', n: '“Page 1 of 1” slip', nt: 'TCP header', s: 'Which app, and which page', who: up ? 'Your phone and WhatsApp’s server' : 'WhatsApp’s server and your friend’s phone', t: `ports ${ports} · seq 2847193005`, bytes: cumBytes(2) },
+    { k: 'noise', n: 'Extra envelope', nt: 'Noise transport encryption', s: 'Protects the trip to and from the server', who: 'The phone and WhatsApp’s server', t: 'Noise protocol · AES-GCM', bytes: cumBytes(1) },
+    { k: 'sig', n: 'Your locked note', nt: 'Signal-encrypted message', s: '🔒 ' + short(18), who: 'Only your friend’s phone', t: 'Signal protocol · AES-256 + HMAC-SHA256', bytes: cumBytes(0) }
   ];
 }
 function envHTML(layers, hidden) {
   let html = '';
   for (let j = layers.length - 1; j >= 0; j--) {
     const L = layers[j], off = hidden && j < layers.length - 1;
-    html = `<div class="ly ly-${L.k} ${off ? 'off' : ''}" data-j="${j}"><div class="ly-h"><b>${esc(L.n)}</b><span>${esc(L.s)}</span>${tech() ? `<em>${esc(L.t)}</em>` : ''}${L.who && !hidden ? `<span class="who-r">Readable by: ${esc(L.who)}</span>` : ''}</div>${html}</div>`;
+    html = `<div class="ly ly-${L.k} ${off ? 'off' : ''}" data-j="${j}"><div class="ly-h"><b>${esc(tech() && L.nt ? L.nt : L.n)}</b><span class="ly-bytes">${fmtBytes(L.bytes)}</span>${!hidden || L.k === 'sig' ? `<span>${esc(L.s)}</span>` : ''}${tech() ? `<em>${esc(L.t)}</em>` : ''}${L.who && !hidden ? `<span class="who-r">Readable by: ${esc(L.who)}</span>` : ''}</div>${html}</div>`;
   }
   return `<div class="env">${html}</div>`;
 }
 
-/* ---------------- the 11 steps ---------------- */
-const net = w => w === 'wifi' ? 'Wi-Fi' : 'Cellular';
+/* ---------------- the 11 steps ----------------
+   Each step tells its story with "beats": picture cards (icon + a few everyday
+   words) in the scene that light up in order as the animation reaches that moment.
+   beat entry: [icon HTML, beginner label, technical label] */
+const TK = n => tickSVG(n);
+const bx = (ic, ok) => `<span class="bx">${ic}<i class="${ok ? 'ok' : 'no'}">${ok ? '✓' : '✕'}</i></span>`;
+const shortMsg = () => { const a = [...state.msg]; return a.length > 12 ? a.slice(0, 11).join('') + '…' : state.msg; };
+const secs = ms => (ms / 1000).toFixed(ms < 100 ? 3 : 2);
+const ttlFloat = id => floatAt(id, tech() ? `TTL ${hud.ttl + 1} → ${hud.ttl}` : '🏷️ ✓', tech() ? 'ttl' : 'info');
 const STEPS = [
 {
   title: 'You tap Send',
   pace: 1,
-  simple: () => `You type “${M()}” and tap Send. For now, the message only exists on your phone.`,
+  simple: () => `You write “${M()}” and tap Send. Right now the message is only on your phone.`,
   tech: () => `WhatsApp creates a message with your text, a unique ID, a timestamp and your friend's WhatsApp ID. The app already keeps a connection to WhatsApp's servers open, so sending can start right away.`,
-  closeup: () => `<div class="cu">${phoneHTML('pa', 'Friend', state.online ? 'online' : 'last seen today', true)}<p class="cu-hint">✎ Tap the text box to send your own message</p></div>`,
+  beats: () => [['⌨️', 'You write', 'Compose message'], ['👆', 'Tap Send', 'send()'], ['📱', 'Still on your phone', 'In app memory'], [TK(0), 'Not sent yet', 'Awaiting server ACK']],
+  closeup: () => `<div class="cu">${phoneHTML('pa', 'Friend', state.online ? 'online' : 'last seen today', true)}<p class="cu-hint">✎ Try your own message ↑</p></div>`,
   async run(o = {}) {
     const input = $('#paIn'), chat = $('#paChat'), send = $('#paSend');
+    beat(0, 0);
     if (!o.typed) {
       input.value = '';
       await wait(500);
-      for (const ch of [...state.msg]) { input.value += ch; await wait(100); }
+      for (const ch of [...state.msg]) { input.value += ch; await wait(110); }
     }
-    await wait(350);
-    send.classList.add('press'); await wait(200); send.classList.remove('press');
+    await wait(400);
+    beat(1, 0);
+    send.classList.add('press'); await wait(300); send.classList.remove('press');
     input.value = '';
     chat.insertAdjacentHTML('beforeend', bubbleOut(0));
-    await wait(700);
+    await wait(900, { ignoreSpeed: true });
+    await beat(2);
+    await beat(3);
   }
 },
 {
   title: 'Your phone locks it',
   pace: 0.8,
-  simple: () => `Before it leaves, your phone locks the message. Only your friend's phone has the key. Not WhatsApp, and not your internet provider.`,
+  simple: () => `Your phone locks the message, like putting it in a safe. Only your friend's phone has the key. Not WhatsApp, and not anyone along the way.`,
   tech: () => `WhatsApp uses the Signal Protocol. Every message gets its own key (the Double Ratchet), and the text is encrypted with AES-256 and sealed with HMAC-SHA256. Private keys never leave the phones, so servers only ever see scrambled data.`,
+  beats: () => [['🔒', 'Locked, like a safe', 'Signal Protocol'], [bx('📱', 1), 'Friend can open it', 'Recipient key only'], [bx('🏢', 0), "WhatsApp can't", 'Server sees ciphertext'], [bx('🕵️', 0), 'Nobody else can', 'ISP sees ciphertext']],
   closeup: () => `<div class="cu">
-    <div class="lock-row"><div class="msgbox"><small>Your message</small><span>${M()}</span></div>${LOCK('lk', true)}<div class="msgbox cipher"><small>What others see</small><span id="cph">&nbsp;</span></div></div>
-    <div class="who3"><div class="who yes"><i>✓</i>Your friend's phone can open it</div><div class="who no"><i>✕</i>WhatsApp can't</div><div class="who no"><i>✕</i>Internet providers can't</div></div></div>`,
+    <div class="lock-row"><div class="msgbox"><small>✉️</small><span>${M()}</span></div>${LOCK('lk', true)}<div class="msgbox cipher"><small>👀</small><span id="cph">&nbsp;</span></div></div>
+    <div class="hacker-wrap" id="hackWrap" hidden><span class="hk">🕵️</span><span class="hk-msg" id="hkMsg">trying to read it…</span></div></div>`,
   async run() {
-    await wait(500);
+    await wait(400);
+    beat(0, 0);
     const m0 = hud.ms, lk = $('#lk');
     const s = scramble($('#cph'), state.msg, state.cipher, 1900);
     await tween(1900, p => { hud.ms = m0 + p; renderHud(); if (p > 0.5) lk.classList.remove('open'); });
     await s;
-    for (const w of $$('.who')) { w.classList.add('show'); await wait(380); }
-    await wait(400);
+    await wait(700, { ignoreSpeed: true });
+    await beat(1);
+    await beat(2);
+    await beat(3);
+    if (state.hacker) {
+      const w = $('#hackWrap'); w.hidden = false;
+      await wait(900, { ignoreSpeed: true });
+      $('#hkMsg').textContent = '🔒 Blocked — only your friend’s key opens this';
+      w.classList.add('blocked');
+      await wait(1500, { ignoreSpeed: true });
+    }
   }
 },
 {
-  title: 'It goes into envelopes',
+  title: 'It gets packed in envelopes',
   pace: 0.8,
-  simple: () => `The locked message is packed into a few envelopes. Each one carries what a different part of the trip needs, such as the address and the next stop. Together they make a “packet”.`,
+  simple: () => `The locked message goes into a few envelopes, one inside the other. Each has information for a different part of the trip, like the address. A big photo would be cut into many small pieces, each in its own envelopes.`,
   tech: () => `Encapsulation: the Signal ciphertext goes inside WhatsApp's transport encryption (Noise), then a TCP segment (ports, sequence numbers), then an IP packet (addresses, TTL 64), then a Wi-Fi or cellular frame. A big file like a photo is split into many packets of up to about 1,500 bytes each.`,
-  closeup: () => `<div class="cu">${envHTML(packetLayers(), true)}<p class="cu-hint" id="envNote" style="opacity:0">A photo would be split into about 1,400 of these packets. Your message fits in one.</p></div>`,
+  beats: () => [['✉️', 'Locked note', 'Signal ciphertext'], ['🔐', 'Extra envelope', 'Noise encryption'], ['📄', '“Page 1 of 1”', 'TCP · port 443'], ['🏷️', 'Address label', 'IP · TTL 64'], ['📦', `Packed: ${fmtBytes(packetTotalBytes())}`, `${fmtBytes(packetTotalBytes())} on the wire`]],
+  closeup: () => `<div class="cu">${envHTML(packetLayers(), true)}
+    <div class="split" id="split"><span class="sp-ic">🖼️</span><span class="sp-arr">→</span><span class="sp-grid">${Array.from({ length: 24 }, (_, k) => `<i style="animation-delay:${k * 45}ms"></i>`).join('')}</span><b>× 1,400</b></div><div class="split show" id="totalRow"><span class="sp-ic">📶</span><b id="totalBytes">${fmtBytes(packetTotalBytes())}</b><small>used from your data plan for this message</small></div></div>`,
   async run() {
-    await wait(500);
-    for (let j = 3; j >= 0; j--) {
+    await wait(400);
+    await beat(0);
+    for (let j = 3, k = 1; j >= 0; j--, k++) {
       const el = $(`.ly[data-j="${j}"]`); el.classList.remove('off'); el.classList.add('on');
       const m0 = hud.ms;
-      await tween(800, p => { hud.ms = m0 + 0.05 * p; renderHud(); });
+      await tween(700, p => { hud.ms = m0 + 0.05 * p; renderHud(); });
+      state.data = cumBytes(k); renderHud();
+      await beat(k);
     }
-    $('#envNote').style.opacity = 1;
-    await wait(600);
+    $('#split').classList.add('show');
+    await wait(2200, { ignoreSpeed: true });
   }
 },
 {
   title: 'It leaves your phone',
   pace: 1.15,
   simple: () => state.myNet === 'wifi'
-    ? `Your phone sends the packet as radio waves to your Wi-Fi router. It then goes through the modem to your internet provider.`
-    : `Your phone sends the packet as radio waves to the nearest cell tower. It then goes through your mobile network toward the internet.`,
+    ? `Your phone sends it through the air, as invisible radio waves, to the Wi-Fi box in your home. From there it goes along a cable to your internet company.`
+    : `Your phone sends it through the air, as invisible radio waves, to the nearest cell tower. From there it goes to your phone company.`,
   tech: () => state.myNet === 'wifi'
     ? `The phone sends an 802.11 frame. The router swaps your private address for your home's public one (NAT) and lowers the TTL. The modem sends it over cable, fiber or DSL to your provider.`
     : `The phone sends an LTE or 5G radio frame to the base station, which tunnels it (GTP-U) over fiber to the carrier's core network. A gateway there sends it to the internet, usually behind carrier-grade NAT.`,
-  control: () => `<small>Your phone uses:</small>${segHTML('myNet', [['wifi', 'Wi-Fi'], ['cell', 'Cellular (4G/5G)']])}`,
+  beats: () => state.myNet === 'wifi'
+    ? [['📶', 'Through the air', '802.11 frame'], ['🏠', 'Home Wi-Fi box', 'Wi-Fi access point'], ['🔁', 'Return address added', 'NAT: private → public'], ['🏢', 'Internet company', 'ISP']]
+    : [['📶', 'Through the air', 'LTE / 5G NR'], ['🗼', 'Cell tower', 'eNodeB / gNodeB'], ['🌐', 'Phone company', 'Carrier core'], ['🔁', 'Return address added', 'Carrier-grade NAT']],
+  control: () => segHTML('myNet', [['wifi', '📶 Wi-Fi'], ['cell', '🗼 Mobile data']]) + (state.hacker ? '<small class="hk-note">🕵️ Hacker simulation is on — see Options to change the Wi-Fi password.</small>' : ''),
   packet: true,
   cam: () => [['phoneA', ...upAccess().map(l => l.to)]],
   async run() {
     showMsg('phoneA');
     await wait(400);
-    await run(upAccess(), { onArrive: it => { if (ROUTER.has(it.to)) floatAt(it.to, `TTL ${hud.ttl + 1} → ${hud.ttl}`, 'ttl'); } });
-    await wait(500);
+    await run(upAccess(), {
+      onStart: it => { if (it.from === 'phoneA') beat(0, 0); },
+      onArrive: async it => {
+        if (ROUTER.has(it.to)) ttlFloat(it.to);
+        if (it.to === 'wifiA') {
+          await beat(1); await beat(2);
+          if (state.hacker) {
+            if (state.openWifi) {
+              floatAt('wifiA', '🕵️ 👀 Sees you’re online', 'hackwarn', -95);
+              await wait(1200, { ignoreSpeed: true });
+              floatAt('wifiA', '🔒 Still can’t read it', 'hack', -95);
+            } else {
+              floatAt('wifiA', '🕵️ 🔒 Blocked — Wi-Fi is locked too', 'hack', -95);
+            }
+            await wait(1400, { ignoreSpeed: true });
+          }
+        }
+        if (it.to === 'ispA') await beat(3);
+        if (it.to === 'towerA') {
+          await beat(1);
+          if (state.hacker) {
+            floatAt('towerA', '🕵️ 🔒 Blocked — the radio link is encrypted too', 'hack', -95);
+            await wait(1400, { ignoreSpeed: true });
+          }
+        }
+        if (it.to === 'coreA') { await beat(2); await beat(3); }
+      }
+    });
   }
 },
 {
-  title: 'Finding the address (DNS)',
+  title: "Looking up WhatsApp's address",
   pace: 0.9,
-  simple: () => `How does your phone know where WhatsApp is? It asks DNS, the internet's phone book, and gets back a number called an IP address. It usually did this earlier and remembered the answer, so it adds no time now.`,
+  simple: () => `To send something you need an address. Your phone asks the internet's "phone book" where WhatsApp is, and writes the answer down. Usually it did this long before, so it takes no extra time.`,
   tech: () => `The phone asks a DNS resolver for the address of a WhatsApp host name (such as g.whatsapp.net). If the answer isn't cached, the resolver asks the root, .net and WhatsApp's own name servers. The app does this when it connects, so it costs 0 ms per message. ${SERVER} is an example address.`,
+  beats: () => [['❓', '“Where is WhatsApp?”', 'A? g.whatsapp.net'], ['📖', 'Internet phone book', 'DNS resolver'], ['📍', '“Here’s the address”', 'A ' + SERVER], ['💾', 'Saved for next time', 'Cached · 0 ms']],
   cam: () => [['phoneA', exitId(), 'dns']],
   async run() {
     showMsg(hud.pos); msgDot.classList.add('dim');
-    await wait(500);
+    await wait(400);
     const q = [...upAccess(), Lg(exitId(), 'dns', 2)].map(l => Object.assign({}, l, { dot: 'dns', count: false, dur: 0.6 }));
-    floatAt('phoneA', 'Where is WhatsApp?', 'info');
+    beat(0, 0);
+    floatAt('phoneA', '❓ WhatsApp?', 'info');
     await run(q);
-    floatAt('dns', 'It’s at ' + SERVER, 'ok');
-    await wait(700);
+    await beat(1);
+    floatAt('dns', '📍 ' + SERVER, 'ok');
+    await beat(2);
     await run(rev(q, { dot: 'dns', count: false, dur: 0.6 }));
-    floatAt('phoneA', 'Got it, saved ✓', 'ok');
+    floatAt('phoneA', '💾', 'ok');
+    await beat(3);
     msgDot.classList.remove('dim');
-    await wait(800);
   }
 },
 {
-  title: 'Across the internet',
+  title: 'A trip across the world',
   pace: 1,
-  simple: () => `The packet hops from router to router, like a parcel through sorting centers. Each router reads only the address and lowers a counter (TTL) by one. The packet crosses the ocean as light inside an undersea cable.`,
+  simple: () => `The message passes through several sorting stations, like a parcel going through post offices. Each one only reads the address label and sends it onward. To cross the sea, it travels as flashes of light inside a cable lying on the sea floor.`,
   tech: () => `Each router looks up the destination in its routing table (routes learned via BGP) and lowers the TTL by 1, so lost packets can't loop forever. At the exchange point (IXP), your provider hands traffic straight to Meta's network. Light in fiber crosses ~6,400 km of ocean in about 32 ms. Real routes usually have 8–20 hops.`,
+  beats: () => [['🏷️', 'Each stop reads the address', 'Routing-table lookup'], ['➡️', 'Sends it onward', 'TTL −1 per hop'], ['🤝', 'Networks meet up', 'IXP peering'], ['💡', 'Light under the sea', '~6,400 km ≈ 32 ms']],
   packet: true,
   cam: () => [[exitId(), 'r1', 'ixp', 'r2', 'lb'], { follow: true }],
   async run() {
     showMsg(hud.pos);
-    await wait(400);
+    await wait(300);
     await run(internet(), {
-      onStart: it => { if (it.to === 'lb') floatAt('r2', 'Light pulses under the sea', 'info', 110); },
+      onStart: it => { if (it.to === 'lb') { beat(3, 0); floatAt('r2', tech() ? '💡 6,400 km ≈ 32 ms' : '💡 6,400 km in 0.03 sec', 'info', 110); } },
       onArrive: async it => {
-        if (ROUTER.has(it.to)) { floatAt(it.to, `TTL ${hud.ttl + 1} → ${hud.ttl}`, 'ttl'); await wait(250); }
-        if (it.to === 'ixp') floatAt('ixp', 'Networks meet here', 'info');
+        if (ROUTER.has(it.to)) ttlFloat(it.to);
+        if (it.to === 'r1') { await beat(0); await beat(1); }
+        if (it.to === 'ixp') { floatAt('ixp', '🤝', 'info'); await beat(2); }
       }
     });
-    await wait(500);
+    await wait(600);
   }
 },
 {
-  title: 'At WhatsApp’s data center',
+  title: "WhatsApp's computers get it",
   pace: 0.9,
-  simple: () => `A load balancer sends the packet to a free chat server. The server can see who the message is for, but it can't read what it says.`,
+  simple: () => `The message arrives at WhatsApp's computers. A front desk hands it to a computer that isn't busy. That computer can see who it's for, but it can't open it. It tells your phone "got it".`,
   tech: () => `The load balancer spreads connections across many chat servers. The server removes the outer Noise encryption and reads the routing info (sender, recipient, time, size). The Signal-encrypted content stays locked. It sends your phone an acknowledgement, which becomes the first grey tick.`,
+  beats: () => [['🛎️', 'Front desk picks a computer', 'Load balancer'], ['👀', "Sees who it's for", 'Reads metadata'], [bx('✉️', 0), "Can't open it", 'Signal payload intact'], [TK(1), '“Got it!” → you', 'Server ACK']],
   packet: true,
   cam: () => [['lb', 'chat']],
-  overlay: () => `<div class="ov-card" id="sees" style="opacity:0"><h4>What the server sees</h4>
-    <div class="ov-row ok"><span>Who it's for</span><b>✓ visible</b></div>
-    <div class="ov-row ok"><span>Who sent it</span><b>✓ visible</b></div>
-    <div class="ov-row no"><span>What it says</span><b>🔒 locked</b></div></div>`,
   async run() {
     showMsg('lb');
-    floatAt('lb', 'Picks a free server', 'meta');
-    await wait(900);
+    await wait(300);
+    await beat(0);
     await run(ROUTES[6]());
-    $('#sees').style.opacity = 1;
-    floatAt('chat', 'For: your friend 🔒', 'meta');
-    await wait(1200);
+    floatAt('chat', '👀 → your friend', 'meta');
+    await beat(1);
+    floatAt('chat', '🔒', 'meta');
+    await beat(2);
+    floatAt('chat', '✓ → you', 'ok');
+    await beat(3);
   }
 },
 {
-  title: 'Delivering to your friend',
+  title: 'Passed on to your friend',
   pace: 0.85,
   simple: () => state.online
-    ? `Your friend's app is already connected, so the server sends the message straight down that open connection.`
-    : `Your friend's phone is offline. The server keeps the locked message and asks Apple or Google to “ring the doorbell”. When the phone wakes up, it collects the message.`,
+    ? `Your friend's phone is already connected to WhatsApp, so the message is passed straight on.`
+    : `Your friend's phone is asleep. WhatsApp keeps the locked message safe and asks Apple or Google to "ring the doorbell". When the phone wakes up, it picks the message up.`,
   tech: () => state.online
     ? `Phones keep a connection to WhatsApp open. They sit behind NAT, so the server can't start a new connection to them, but it can send down this one. It creates a new IP packet to your friend's address, with a fresh TTL of 64.`
     : `The server queues the encrypted message (for up to 30 days) and sends a push notification via APNs (iPhone) or FCM (Android). WhatsApp wakes, reconnects and fetches the message, and the server deletes its copy. Apple and Google can't read it.`,
-  control: () => `<small>Your friend is:</small>${segHTML('online', [['on', 'Online'], ['off', 'Offline / app closed']])}`,
+  beats: () => state.online
+    ? [['🟢', 'Friend is online', 'Active session'], ['🔌', 'Line already open', 'Persistent connection'], ['📤', 'Sent right away', 'New packet · TTL 64']]
+    : [['😴', 'Friend’s phone is asleep', 'No active session'], ['🗄️', 'Kept safe, still locked', 'Queued (≤ 30 days)'], ['🔔', 'Apple / Google ring', 'APNs / FCM push'], ['📲', 'Phone wakes & picks it up', 'Reconnect + fetch']],
+  control: () => segHTML('online', [['on', '🟢 Online'], ['off', '😴 Asleep']]),
   packet: true,
   cam: () => [state.online ? ['chat', 'rB'] : ['chat', 'push', 'rB', 'phoneB']],
   async run() {
     showMsg('chat');
-    await wait(400);
+    await wait(300);
+    await beat(0);
     if (state.online) {
-      await run(deliver(), {
-        onProc: () => floatAt('chat', 'Friend is online', 'ok'),
-        onReset: async () => { floatAt('chat', 'New packet · TTL 64', 'ttl'); await wait(400); }
-      });
+      await beat(1);
+      beat(2, 0);
+      await run(deliver(), { onReset: () => { if (tech()) floatAt('chat', 'TTL 64', 'ttl'); } });
     } else {
       await run(deliver(), {
         onProc: async it => {
-          if (it.label === 'store') { storeBadge.setAttribute('opacity', 1); floatAt('chat', 'Kept safe, still locked', 'meta'); await wait(600); }
-          if (it.label === 'wake') { nodeEls.phoneB.classList.add('awake'); floatAt('phoneB', 'Waking up…', 'push'); }
+          if (it.label === 'store') { storeBadge.setAttribute('opacity', 1); await beat(1); }
+          if (it.label === 'wake') { nodeEls.phoneB.classList.add('awake'); beat(3, 0); }
         },
-        onStart: it => { if (it.dot === 'push' && it.from === 'chat') floatAt('push', 'Ding-dong!', 'push'); },
+        onStart: it => { if (it.dot === 'push' && it.from === 'chat') beat(2, 0); },
         onArrive: async it => {
-          if (it.dot === 'push' && it.to === 'phoneB') floatAt('phoneB', '🔔 New message', 'push');
-          if (it.dot === 'fetch' && it.to === 'chat') { storeBadge.setAttribute('opacity', 0); floatAt('chat', 'Here you go!', 'ok'); await wait(400); }
+          if (it.dot === 'push' && it.to === 'phoneB') floatAt('phoneB', '🔔', 'push');
+          if (it.dot === 'fetch' && it.to === 'chat') { storeBadge.setAttribute('opacity', 0); floatAt('chat', '📤', 'ok'); }
         }
       });
     }
-    await wait(500);
+    await wait(400);
   }
 },
 {
   title: 'The last stretch',
   pace: 1.15,
   simple: () => state.friendNet === 'wifi'
-    ? `The packet goes through your friend's internet provider and Wi-Fi router, then by radio waves to their phone.`
-    : `The packet goes through your friend's mobile network to the cell tower near them, then by radio waves to their phone.`,
+    ? `The message reaches your friend's internet company, then the Wi-Fi box in their home, and flies through the air to their phone.`
+    : `The message reaches your friend's phone company, then the cell tower near them, and flies through the air to their phone.`,
   tech: () => state.friendNet === 'wifi'
     ? `Your friend's router uses its NAT table to find which device the packet is for, lowers the TTL and sends it as a Wi-Fi frame.`
     : `The carrier's core finds which tower the phone is connected to and tunnels the packet there. The tower sends it over the radio link.`,
-  control: () => `<small>Your friend's phone uses:</small>${segHTML('friendNet', [['wifi', 'Wi-Fi'], ['cell', 'Cellular (4G/5G)']])}`,
+  beats: () => state.friendNet === 'wifi'
+    ? [['🏢', "Friend's internet company", 'ISP routing'], ['🏠', "Friend's Wi-Fi box", 'NAT reverse lookup'], ['📶', 'Through the air', '802.11 frame']]
+    : [['🌐', "Friend's phone company", 'Carrier core'], ['🗼', 'Nearest cell tower', 'GTP-U to base station'], ['📶', 'Through the air', 'LTE / 5G NR']],
+  control: () => segHTML('friendNet', [['wifi', '📶 Wi-Fi'], ['cell', '🗼 Mobile data']]),
   packet: true,
   cam: () => [['rB', ...downAccess().map(l => l.to)]],
   async run() {
     showMsg('rB');
-    await wait(400);
-    await run(downAccess(), { onArrive: it => { if (ROUTER.has(it.to)) floatAt(it.to, `TTL ${hud.ttl + 1} → ${hud.ttl}`, 'ttl'); } });
-    floatAt('phoneB', 'Arrived!', 'ok');
-    await wait(600);
+    await wait(300);
+    await run(downAccess(), {
+      onStart: it => { if (it.to === 'phoneB') beat(2, 0); },
+      onArrive: async it => {
+        if (ROUTER.has(it.to)) ttlFloat(it.to);
+        if (it.to === 'ispB' || it.to === 'coreB') await beat(0);
+        if (it.to === 'wifiB' || it.to === 'towerB') await beat(1);
+      }
+    });
+    floatAt('phoneB', '📬', 'ok');
+    await wait(500);
   }
 },
 {
   title: 'Your friend’s phone unlocks it',
   pace: 0.9,
-  simple: () => `Your friend's phone unlocks the message with its key, and “${M()}” appears on their screen.`,
+  simple: () => `Your friend's phone opens the lock with its own key, and “${M()}” appears on their screen.`,
   tech: () => `TCP puts the data back in order, the Noise layer is removed, and the Signal session works out the same message key your phone used. The HMAC check proves nothing was changed, then AES-256 decrypts it. The key is then deleted.`,
-  closeup: () => `<div class="cu">${phoneHTML('pb', 'You', 'online', false)}<p class="cu-hint" id="unl">🔑 Unlocking with your friend's key…</p></div>`,
+  beats: () => [['📩', 'Arrives locked', 'Ciphertext'], ['🔑', 'Only their key fits', 'Double Ratchet key'], ['🔓', 'Unlocked', 'HMAC ✓ · AES-256'], ['💬', `“${shortMsg()}”`, 'Displayed']],
+  closeup: () => `<div class="cu">${phoneHTML('pb', 'You', 'online', false)}<div class="unl" id="unl">🔒</div></div>`,
   async run() {
     const chat = $('#pbChat');
-    await wait(400);
+    await wait(300);
     chat.insertAdjacentHTML('beforeend', `<div class="bubble in"><span class="scr" id="scr">🔒 ${esc(short(28))}</span><span class="bm">${clock()}</span></div>`);
-    await wait(700);
+    await beat(0);
+    beat(1, 0);
+    $('#unl').textContent = '🔑';
     const el = $('#scr'), m0 = hud.ms;
     const s = scramble(el, state.cipher.slice(0, 28), state.msg, 1700);
     await tween(1700, p => { hud.ms = m0 + p; renderHud(); });
     await s;
     el.className = '';
-    $('#unl').textContent = '✓ Unlocked. Only this phone could do that.';
-    await wait(800);
+    $('#unl').textContent = '🔓';
+    await beat(2);
+    await beat(3);
   }
 },
 {
   title: 'The ticks come back',
   pace: 0.8,
-  simple: () => `Small receipts travel back to you. One grey tick: WhatsApp got it. Two grey ticks: it reached your friend's phone. Two blue ticks: your friend read it.`,
+  simple: () => `Little notes come back to your phone. One grey tick: WhatsApp got it. Two grey ticks: it reached your friend's phone. Two blue ticks: your friend read it.`,
   tech: () => `✓ is the server's acknowledgement from step 7. ✓✓ is a delivery receipt sent by your friend's phone through the server. Blue ✓✓ is a read receipt, sent when your friend opens the chat (unless read receipts are turned off).`,
+  beats: () => { const n = stateAt(10).ms; return [[TK(1), 'WhatsApp got it', 'Server ACK'], [TK(2), "Reached friend's phone", 'Delivery receipt'], [TK(3), 'Friend read it', 'Read receipt'], ['⏱️', `All in ${secs(n)} sec`, `One-way ≈ ${Math.round(n)} ms`]]; },
   cam: () => [['chat', 'phoneA'], { follow: true }],
-  overlay: () => `<div class="ov-card"><h4>On your screen</h4><div style="display:flex;flex-direction:column">${bubbleOut(0)}</div><div class="ov-sum" id="tkText">Waiting for receipts…</div></div>`,
+  overlay: () => `<div class="ov-card"><div style="display:flex;flex-direction:column">${bubbleOut(0)}</div></div>`,
   async run() {
     msgDot.classList.add('hide');
     const back = rev([...upAccess(), ...internet(), Lg('lb', 'chat', 0.5)]);
     const fromFriend = [...rev(downAccess()), Lg('rB', 'chat', 5)];
-    const delivered = hud.ms, t2 = delivered + sum(fromFriend) + sum(back);
-    const slot = () => $('#overlay .tkslot'), txt = $('#tkText');
+    const slot = () => $('#overlay .tkslot');
     camT.x = pos.chat.x;
-    await wait(500);
+    await wait(400);
     await run(back.map(l => Object.assign({}, l, { dot: 'ack', count: false, dur: 0.4 })));
-    slot().innerHTML = tickSVG(1); txt.textContent = '✓ WhatsApp’s server got it';
+    slot().innerHTML = TK(1); ping('phoneA');
+    state.data += HDR.ip + HDR.tcp + HDR.noise + 8; renderHud();
+    await beat(0);
+    camT.x = pos.phoneB.x;
     await wait(500);
-    camT.x = pos.phoneB.x;
-    await wait(600);
     await run([...fromFriend, ...back].map(l => Object.assign({}, l, { dot: 'ack2', dur: 0.4 })));
-    slot().innerHTML = tickSVG(2); txt.textContent = '✓✓ Delivered to your friend’s phone';
-    await wait(900);
+    slot().innerHTML = TK(2); ping('phoneA');
+    state.data += HDR.ip + HDR.tcp + HDR.noise + 8; renderHud();
+    await beat(1);
     camT.x = pos.phoneB.x;
-    floatAt('phoneB', 'Your friend opens the chat', 'info');
-    await wait(1400);
+    floatAt('phoneB', '👀', 'info');
+    await wait(1200, { ignoreSpeed: true });
     await run([...fromFriend, ...back].map(l => Object.assign({}, l, { dot: 'read', count: false, dur: 0.3 })));
-    slot().innerHTML = tickSVG(3);
-    txt.innerHTML = state.online
-      ? `✓✓ Read. The message reached your friend in <b>${Math.round(delivered)} ms</b>, about as long as a blink.`
-      : `✓✓ Read. Delivery took <b>${Math.round(delivered)} ms</b>, mostly waiting for your friend's phone to wake up.`;
-    void t2;
+    slot().innerHTML = TK(3); ping('phoneA');
+    state.data += HDR.ip + HDR.tcp + HDR.noise + 8; renderHud();
+    await beat(2);
+    await beat(3);
   }
 }
 ];
 function showMsg(at) { placeAt(msgDot, at); msgDot.classList.remove('hide', 'dim'); }
 
+/* Light up picture card k. With a hold, wait so it can be taken in: the hold
+   ignores the speed slider, so every picture gets time on screen. */
+function beat(k, hold = 1700) {
+  state.beatsOn = Math.max(state.beatsOn, k + 1);
+  state.beatCur = k;
+  $$('#beats .beat').forEach((c, j) => { c.classList.toggle('on', j < state.beatsOn); c.classList.toggle('cur', j === k); });
+  return hold ? wait(hold, { ignoreSpeed: true }) : Promise.resolve();
+}
+function renderBeats() {
+  const st = STEPS[state.step], list = st.beats ? st.beats() : [];
+  $('#beats').innerHTML = list.map((b, j) => `${j ? '<span class="bsep" aria-hidden="true">›</span>' : ''}<div class="beat ${j < state.beatsOn ? 'on' : ''} ${j === state.beatCur ? 'cur' : ''}"><span class="bi">${b[0]}</span><span class="bl">${esc(tech() && b[2] ? b[2] : b[1])}</span></div>`).join('');
+}
+
 /* ---------------- step runner ---------------- */
 function resetScene(i) {
   const st = STEPS[i];
   state.pace = st.pace || 1;
+  state.beatsOn = 0; state.beatCur = -1;
+  state.data = dataAt(i);
   hud = stateAt(i);
   floatG.innerHTML = '';
   Object.keys(temp).forEach(dropTemp);
@@ -1049,7 +1226,7 @@ function resetScene(i) {
   nodeEls.phoneB.classList.remove('awake');
   storeBadge.setAttribute('opacity', 0);
   msgDot.classList.add('hide');
-  msgDot.classList.toggle('ttl-on', i >= 3 && i <= 8);
+  msgDot.classList.toggle('ttl-on', tech() && i >= 3 && i <= 8);
   closeInfo();
   state.overview = false;
   setExtras();
@@ -1057,11 +1234,16 @@ function resetScene(i) {
   scene.classList.toggle('is-closeup', isClose);
   $('#closeup').innerHTML = isClose ? st.closeup() : '';
   $('#overlay').innerHTML = st.overlay ? st.overlay() : '';
+  $('#scNum').textContent = i + 1;
+  $('#scTitle').textContent = st.title;
+  $('#sceneCtl').innerHTML = st.control ? st.control() : '';
+  $('#pktTool').hidden = !st.packet;
   $('#wholeBtn').hidden = isClose;
   $('#wholeLbl').textContent = 'Whole map';
   $('#hint').hidden = isClose || hintDone;
   if (!isClose && st.cam) { const [ids, opt] = st.cam(); frame(ids, opt || {}); }
   if (i === 0) bindPhoneForm();
+  renderBeats();
   renderProgress(); renderCaption(); renderHud(); updateControls(); syncSegs();
   if (!$('#pktSheet').hidden) renderPacket();
 }
@@ -1073,9 +1255,8 @@ async function runStep(i, opt) {
   resetScene(i);
   try {
     await STEPS[i].run(opt);
-    // Give the caption time to be read before moving on, however fast the
-    // animation itself was set to run.
-    await wait(readHold(i), { ignoreSpeed: true });
+    // A last look at the finished picture before moving on.
+    await wait(1500, { ignoreSpeed: true });
     return my === token;
   } catch (e) { if (!(e instanceof Cancel)) console.error(e); return false; }
 }
@@ -1100,12 +1281,9 @@ function renderProgress() {
 function renderCaption() {
   const st = STEPS[state.step];
   $('#caption').innerHTML = `
-    <div class="cap-head"><span class="cap-step">Step ${state.step + 1} of ${STEPS.length}</span>${segHTML('mode', [['simple', 'Simple'], ['tech', 'Technical']]).replace('class="seg"', 'class="seg mini"')}</div>
-    <h2>${st.title}</h2>
+    <div class="cap-head"><span class="cap-step">Step ${state.step + 1} of ${STEPS.length} · ${esc(st.title)}</span>${segHTML('mode', [['simple', 'Simple'], ['tech', 'Technical']]).replace('class="seg"', 'class="seg mini"')}</div>
     <p class="cap-simple">${st.simple()}</p>
-    <details class="cap-tech" ${tech() ? 'open' : ''}><summary>Technical detail</summary><p>${st.tech()}</p></details>
-    ${st.control ? `<div class="cap-ctl">${st.control()}</div>` : ''}
-    ${st.packet ? `<div class="cap-more"><button class="btn small" id="pktBtn">🔍 Look inside the packet</button></div>` : ''}`;
+    <p class="cap-techp"><b>Technical:</b> ${st.tech()}</p>`;
   syncSegs();
 }
 function updateControls() {
@@ -1115,7 +1293,8 @@ function updateControls() {
   $('#nextBtn').disabled = state.step === last;
 }
 function syncSegs() {
-  const cur = { mode: state.mode, myNet: state.myNet, friendNet: state.friendNet, online: state.online ? 'on' : 'off' };
+  const cur = { mode: state.mode, myNet: state.myNet, friendNet: state.friendNet, online: state.online ? 'on' : 'off', hacker: state.hacker ? 'on' : 'off', wifiSec: state.openWifi ? 'open' : 'secured' };
+  $('#wifiSecOpt').hidden = !state.hacker;
   $$('.seg[data-bind]').forEach(s => $$('button', s).forEach(b => {
     const on = b.dataset.val === cur[s.dataset.bind];
     b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
@@ -1124,9 +1303,20 @@ function syncSegs() {
 function setOpt(bind, val) {
   if (bind === 'mode') {
     if (state.mode === val) return;
-    state.mode = val; renderCaption();
+    state.mode = val; renderCaption(); renderBeats(); renderHud();
+    svg.classList.toggle('tech', tech());
+    msgDot.classList.toggle('ttl-on', tech() && state.step >= 3 && state.step <= 8);
     if (!$('#pktSheet').hidden) renderPacket();
     if (infoId) openInfo(infoId);
+    return;
+  }
+  if (bind === 'hacker' || bind === 'wifiSec') {
+    const b = [state.hacker, state.openWifi].join();
+    if (bind === 'hacker') state.hacker = val === 'on';
+    if (bind === 'wifiSec') state.openWifi = val === 'open';
+    syncSegs();
+    if ([state.hacker, state.openWifi].join() === b) return;
+    if (state.playing) playAll(state.step); else runStep(state.step);
     return;
   }
   const before = [state.myNet, state.friendNet, state.online].join();
@@ -1154,7 +1344,7 @@ function closeInfo() { infoId = null; $('#info').hidden = true; }
 /* packet view */
 function renderPacket() {
   const i = state.step;
-  let title = 'Inside the packet', sub, layers;
+  let title = tech() ? 'Inside the packet' : 'What’s inside the envelopes', sub, layers;
   if (i === 6 && hud.pos === 'chat') {
     sub = 'At the chat server: outer envelopes removed';
     layers = [{ k: 'meta', n: 'Routing info', s: 'To: your friend · From: you', who: 'WhatsApp’s server', t: 'sender, recipient device IDs, timestamp, size' }, packetLayers()[4]];
@@ -1197,7 +1387,7 @@ function init() {
     if (b) { setOpt(b.parentElement.dataset.bind, b.dataset.val); return; }
     const pg = e.target.closest('.pg');
     if (pg) { go(+pg.dataset.i); return; }
-    if (e.target.closest('#pktBtn')) { renderPacket(); $('#pktSheet').hidden = false; return; }
+    if (e.target.closest('#pktTool')) { renderPacket(); $('#pktSheet').hidden = false; return; }
     if (e.target.closest('[data-close]') || e.target.classList.contains('backdrop')) { $$('.backdrop').forEach(x => x.hidden = true); }
   });
   $('#prevBtn').onclick = () => go(state.step - 1);
