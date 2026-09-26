@@ -856,7 +856,7 @@ function packetLayers() {
     { k: 'link', n: 'Outer envelope', nt: 'Link-layer frame', s: linkLeg(hud.pos, hud.side), who: 'Only the next device. It’s replaced at every stop.', t: hud.pos === 'phoneA' ? (state.myNet === 'wifi' ? '802.11 frame · MAC addresses' : 'LTE / 5G NR radio frame') : 'link-layer frame, rebuilt at every hop', bytes: cumBytes(4, up ? state.myNet : state.friendNet) },
     { k: 'ip', n: 'Address label', nt: 'IP header', s: up ? 'To: WhatsApp’s server' : 'To: your friend’s phone', who: 'Every sorting station on the way', t: `${src} → ${dst} · TTL ${hud.ttl}`, bytes: cumBytes(3) },
     { k: 'tcp', n: '“Page 1 of 1” slip', nt: 'TCP header', s: 'Which app, and which page', who: up ? 'Your phone and WhatsApp’s server' : 'WhatsApp’s server and your friend’s phone', t: `ports ${ports} · seq 2847193005`, bytes: cumBytes(2) },
-    { k: 'noise', n: 'Extra envelope', nt: 'Noise transport encryption', s: 'Protects the trip to and from the server', who: 'The phone and WhatsApp’s server', t: 'Noise protocol · AES-GCM', bytes: cumBytes(1) },
+    { k: 'noise', n: 'Extra envelope', nt: 'Noise transport encryption', s: 'Protects the trip to and from the server', who: 'The phone and WhatsApp’s server', t: 'Noise Pipes · Curve25519 · AES-GCM · SHA-256', bytes: cumBytes(1) },
     { k: 'sig', n: 'Your locked note', nt: 'Signal-encrypted message', s: '🔒 ' + short(18), who: 'Only your friend’s phone', t: 'Signal protocol · AES-256 + HMAC-SHA256', bytes: cumBytes(0) }
   ];
 }
