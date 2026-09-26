@@ -225,7 +225,7 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .cap-ctl{margin-top:14px;display:flex;flex-direction:column;gap:6px}
 .cap-ctl small{color:var(--muted);font-size:13px}
 .cap-more{margin-top:14px}
-.seg{display:inline-flex;background:#0a1224;border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
+.seg{display:inline-flex;flex-wrap:wrap;background:#0a1224;border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
 .seg button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-size:14px;font-weight:600;color:var(--muted);white-space:nowrap}
 .seg button:hover{color:var(--text)}
 .seg button.on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
@@ -275,6 +275,21 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .hacker-wrap.blocked .hk{animation:none;filter:grayscale(1) opacity(.6)}
 @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
 .hk-note{flex-basis:100%;color:var(--orange);font-weight:600}
+.hk-explainer{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
+.hackterm{position:absolute;left:12px;top:104px;z-index:5;width:min(280px,calc(100% - 24px));background:#060a07;border:1px solid #17391f;border-radius:12px;overflow:hidden;box-shadow:0 14px 34px #0009;font-family:var(--mono)}
+.ht-bar{display:flex;align-items:center;gap:5px;padding:6px 10px;background:#0d160e;border-bottom:1px solid #17391f}
+.ht-bar i{width:8px;height:8px;border-radius:50%;background:#e0554f}
+.ht-bar i:nth-child(2){background:#e0b84f}
+.ht-bar i:nth-child(3){background:#4fbf6b}
+.ht-bar span{margin-left:5px;color:#7fae86;font-size:11px;font-weight:700}
+.ht-body{padding:8px 10px;max-height:150px;overflow-y:auto;color:#63e88a;font-size:12px;line-height:1.6}
+.ht-line{white-space:pre-wrap;overflow-wrap:anywhere;opacity:0;animation:up .3s ease forwards}
+.ht-line.cmd::before{content:"$ ";color:#4d6b57}
+.ht-line.data{color:#3fd67a}
+.ht-line.muted{color:#5f8267}
+.ht-line.warn{color:var(--amber)}
+.ht-line.bad{color:#ff6b6b}
+.ht-line.bold{font-weight:800}
 .more{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
 .more summary{cursor:pointer;font-weight:600;color:var(--muted)}
 .more[open] summary{margin-bottom:10px}
@@ -323,6 +338,7 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
   .msgbox{min-width:130px}
   .overlay{top:120px}
   .info{top:120px}
+  .hackterm{top:120px;font-size:11px}
   .sc-title{font-size:17px;gap:8px}
   .sc-num{width:28px;height:28px;font-size:14px}
   .beats{gap:4px;left:8px;right:8px;transform:none;bottom:8px}
@@ -392,6 +408,7 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
       </div>
       <div class="overlay" id="overlay"></div>
       <div class="info" id="info" role="dialog" aria-labelledby="infoTitle" hidden></div>
+      <div class="hackterm" id="hackTerm" hidden aria-live="polite"><div class="ht-bar"><i></i><i></i><i></i><span>🕵️ hacker’s laptop</span></div><div class="ht-body" id="hackTermBody"></div></div>
       <div class="beats" id="beats" aria-live="polite"></div>
     </section>
 
@@ -416,7 +433,8 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
     <div class="opt"><span class="lbl">Your friend is</span><div class="seg" data-bind="online"><button data-val="on">Online</button><button data-val="off">Offline / app closed</button></div></div>
     <div class="opt"><span class="lbl">Explanations</span><div class="seg" data-bind="mode"><button data-val="simple">Simple</button><button data-val="tech">Technical</button></div></div>
     <div class="opt hacker-opt"><span class="lbl">🕵️ Simulate a hacker watching?</span><div class="seg" data-bind="hacker"><button data-val="off">No</button><button data-val="on">Yes</button></div></div>
-    <div class="opt hacker-opt" id="wifiSecOpt" hidden><span class="lbl">Home Wi-Fi password</span><div class="seg" data-bind="wifiSec"><button data-val="secured">🔒 Secured (WPA2)</button><button data-val="open">🔓 Open (none)</button></div></div>
+    <div class="opt hacker-opt" id="wifiSecOpt" hidden><span class="lbl">Does the hacker get onto your Wi-Fi?</span><div class="seg" data-bind="wifiSec"><button data-val="strong" title="Strong password">❌ No</button><button data-val="weak" title="Weak password">🎲 50/50</button><button data-val="open" title="Open network, no password">✅ Yes</button></div></div>
+    <p class="hk-explainer" id="wifiSecNote" hidden>This only decides whether the hacker gets onto your network at all — a weak password really can go either way. Reading the message itself is never part of that bet: it always stays blocked by end-to-end encryption, whether they get in or not.</p>
     <div class="opt"><label for="speed">Animation speed: <b id="speedOut">1×</b></label><input type="range" id="speed" min="0.25" max="3" step="0.25" value="1"></div>
   </div>
 </div>
@@ -463,7 +481,7 @@ function fmtBytes(n) { return n < 1000 ? Math.round(n) + ' B' : (n / 1000).toFix
 function dataAt(i) { return i <= 1 ? 0 : i === 2 ? cumBytes(0) : packetTotalBytes(state.myNet); }
 
 /* ---------------- state ---------------- */
-const state = { step: 0, msg: 'Hi!', cipher: '', mode: 'simple', myNet: 'wifi', friendNet: 'wifi', online: true, speed: 1, playing: false, paused: false, overview: false, hacker: false, openWifi: false };
+const state = { step: 0, msg: 'Hi!', cipher: '', mode: 'simple', myNet: 'wifi', friendNet: 'wifi', online: true, speed: 1, playing: false, paused: false, overview: false, hacker: false, wifiSec: 'strong' };
 const tech = () => state.mode === 'tech';
 const M = () => esc(state.msg);
 const SERVER = '198.51.100.60';
@@ -878,6 +896,26 @@ const bx = (ic, ok) => `<span class="bx">${ic}<i class="${ok ? 'ok' : 'no'}">${o
 const shortMsg = () => { const a = [...state.msg]; return a.length > 12 ? a.slice(0, 11).join('') + '…' : state.msg; };
 const secs = ms => (ms / 1000).toFixed(ms < 100 ? 3 : 2);
 const ttlFloat = id => floatAt(id, tech() ? `TTL ${hud.ttl + 1} → ${hud.ttl}` : '🏷️ ✓', tech() ? 'ttl' : 'info');
+/* The hacker's own screen — shown alongside the map/closeup so the attempt (and its
+   limits) are visible from their side too, not just as a badge on your side. */
+// A run's remaining `await`s can keep firing after a newer step has started (each
+// wait() only notices a cancellation that happens *during* it, not one that already
+// happened before it was called) — so the terminal tracks its own "which attempt is
+// still current" generation, independent of that, and a superseded one goes silent.
+let termGen = 0;
+function termShow() { termGen++; $('#hackTerm').hidden = false; $('#hackTermBody').innerHTML = ''; return termGen; }
+function termHide() { termGen++; $('#hackTerm').hidden = true; }
+async function termLine(gen, text, cls = '') {
+  if (gen !== termGen) return;
+  const body = $('#hackTermBody');
+  const p = document.createElement('div');
+  p.className = 'ht-line' + (cls ? ' ' + cls : '');
+  p.textContent = text;
+  body.appendChild(p);
+  body.scrollTop = body.scrollHeight;
+  await wait(550, { ignoreSpeed: true });
+  if (gen !== termGen) return;
+}
 const STEPS = [
 {
   title: 'You tap Send',
@@ -926,10 +964,16 @@ const STEPS = [
     await beat(3);
     if (state.hacker) {
       const w = $('#hackWrap'); w.hidden = false;
-      await wait(900, { ignoreSpeed: true });
+      const g1 = termShow();
+      await termLine(g1, 'tcpdump -i any host ' + SERVER, 'cmd');
+      await termLine(g1, short(24), 'data');
+      await termLine(g1, 'decrypt payload.bin', 'cmd');
+      await termLine(g1, 'AES-256 key: not found', 'bad');
       $('#hkMsg').textContent = '🔒 Blocked — only your friend’s key opens this';
       w.classList.add('blocked');
+      await termLine(g1, '[BLOCKED] Signal end-to-end encryption', 'bad bold');
       await wait(1500, { ignoreSpeed: true });
+      termHide();
     }
   }
 },
@@ -968,6 +1012,37 @@ const STEPS = [
     ? [['📶', 'Through the air', '802.11 frame'], ['🏠', 'Home Wi-Fi box', 'Wi-Fi access point'], ['🔁', 'Return address added', 'NAT: private → public'], ['🏢', 'Internet company', 'ISP']]
     : [['📶', 'Through the air', 'LTE / 5G NR'], ['🗼', 'Cell tower', 'eNodeB / gNodeB'], ['🌐', 'Phone company', 'Carrier core'], ['🔁', 'Return address added', 'Carrier-grade NAT']],
   control: () => segHTML('myNet', [['wifi', '📶 Wi-Fi'], ['cell', '🗼 Mobile data']]) + (state.hacker ? '<small class="hk-note">🕵️ Hacker simulation is on — see Options to change the Wi-Fi password.</small>' : ''),
+  async hackerAtWifi() {
+    const g2 = termShow();
+    await termLine(g2, 'airodump-ng wlan0', 'cmd');
+    await termLine(g2, 'SSID: Home-WiFi   ENC: ' + (state.wifiSec === 'open' ? 'OPEN' : 'WPA2'), 'muted');
+    let cracked;
+    if (state.wifiSec === 'open') {
+      await termLine(g2, 'connect wlan0 --no-password', 'cmd');
+      await termLine(g2, '[CONNECTED] no password needed', 'warn');
+      cracked = true;
+    } else {
+      await termLine(g2, 'aircrack-ng capture.cap', 'cmd');
+      await termLine(g2, 'cracking… (' + state.wifiSec + ' password)', 'muted');
+      cracked = state.wifiSec === 'weak' && Math.random() < 0.5;
+      await termLine(g2, cracked ? '[SUCCESS] password found' : '[FAILED] password not found', cracked ? 'warn' : 'bad');
+    }
+    if (cracked) {
+      await termLine(g2, 'tcpdump -i wlan0 host ' + SERVER, 'cmd');
+      await termLine(g2, short(24), 'data');
+      await termLine(g2, 'strings capture.pcap | grep -i hi', 'cmd');
+      await termLine(g2, '(no readable text)', 'muted');
+      await termLine(g2, '[BLOCKED] Signal end-to-end encryption', 'bad bold');
+      floatAt('wifiA', '🕵️ 👀 Got on the network', 'hackwarn', -95);
+      await wait(1100, { ignoreSpeed: true });
+      floatAt('wifiA', '🔒 Still can’t read it', 'hack', -95);
+    } else {
+      await termLine(g2, '[BLOCKED] never got on the network', 'bad bold');
+      floatAt('wifiA', state.wifiSec === 'weak' ? '🕵️ 🔒 Couldn’t crack it this time' : '🕵️ 🔒 Blocked — Wi-Fi is locked too', 'hack', -95);
+    }
+    await wait(1400, { ignoreSpeed: true });
+    termHide();
+  },
   packet: true,
   cam: () => [['phoneA', ...upAccess().map(l => l.to)]],
   async run() {
@@ -979,23 +1054,19 @@ const STEPS = [
         if (ROUTER.has(it.to)) ttlFloat(it.to);
         if (it.to === 'wifiA') {
           await beat(1); await beat(2);
-          if (state.hacker) {
-            if (state.openWifi) {
-              floatAt('wifiA', '🕵️ 👀 Sees you’re online', 'hackwarn', -95);
-              await wait(1200, { ignoreSpeed: true });
-              floatAt('wifiA', '🔒 Still can’t read it', 'hack', -95);
-            } else {
-              floatAt('wifiA', '🕵️ 🔒 Blocked — Wi-Fi is locked too', 'hack', -95);
-            }
-            await wait(1400, { ignoreSpeed: true });
-          }
+          if (state.hacker) await STEPS[3].hackerAtWifi();
         }
         if (it.to === 'ispA') await beat(3);
         if (it.to === 'towerA') {
           await beat(1);
           if (state.hacker) {
+            const g3 = termShow();
+            await termLine(g3, 'rtl_sdr -f <cell-frequency>', 'cmd');
+            await termLine(g3, 'LTE / 5G radio has its own encryption', 'muted');
+            await termLine(g3, '[BLOCKED] no consumer hardware breaks this', 'bad bold');
             floatAt('towerA', '🕵️ 🔒 Blocked — the radio link is encrypted too', 'hack', -95);
             await wait(1400, { ignoreSpeed: true });
+            termHide();
           }
         }
         if (it.to === 'coreA') { await beat(2); await beat(3); }
@@ -1227,6 +1298,7 @@ function resetScene(i) {
   storeBadge.setAttribute('opacity', 0);
   msgDot.classList.add('hide');
   msgDot.classList.toggle('ttl-on', tech() && i >= 3 && i <= 8);
+  termHide();
   closeInfo();
   state.overview = false;
   setExtras();
@@ -1293,8 +1365,9 @@ function updateControls() {
   $('#nextBtn').disabled = state.step === last;
 }
 function syncSegs() {
-  const cur = { mode: state.mode, myNet: state.myNet, friendNet: state.friendNet, online: state.online ? 'on' : 'off', hacker: state.hacker ? 'on' : 'off', wifiSec: state.openWifi ? 'open' : 'secured' };
+  const cur = { mode: state.mode, myNet: state.myNet, friendNet: state.friendNet, online: state.online ? 'on' : 'off', hacker: state.hacker ? 'on' : 'off', wifiSec: state.wifiSec };
   $('#wifiSecOpt').hidden = !state.hacker;
+  $('#wifiSecNote').hidden = !state.hacker;
   $$('.seg[data-bind]').forEach(s => $$('button', s).forEach(b => {
     const on = b.dataset.val === cur[s.dataset.bind];
     b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
@@ -1311,11 +1384,11 @@ function setOpt(bind, val) {
     return;
   }
   if (bind === 'hacker' || bind === 'wifiSec') {
-    const b = [state.hacker, state.openWifi].join();
+    const b = [state.hacker, state.wifiSec].join();
     if (bind === 'hacker') state.hacker = val === 'on';
-    if (bind === 'wifiSec') state.openWifi = val === 'open';
+    if (bind === 'wifiSec') state.wifiSec = val;
     syncSegs();
-    if ([state.hacker, state.openWifi].join() === b) return;
+    if ([state.hacker, state.wifiSec].join() === b) return;
     if (state.playing) playAll(state.step); else runStep(state.step);
     return;
   }
