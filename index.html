@@ -62,6 +62,7 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .scene.is-closeup .closeup{opacity:1;pointer-events:auto}
 
 .chip{background:#0d1730e6;border:1px solid var(--line2);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:600;white-space:nowrap}
+.chip.chipsafe{background:#0f2a1de6;border-color:var(--green);color:#b8f5d0;font-weight:800}
 .chip b{font-family:var(--mono);color:var(--green)}
 .tools{display:flex;gap:6px;flex:none}
 .tool{background:#0d1730e6;border:1px solid var(--line2);border-radius:10px;padding:5px 10px;font-size:13px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
@@ -290,6 +291,7 @@ h1{margin:0;font-size:clamp(18px,2.3vw,24px);line-height:1.2}
 .ht-line.warn{color:var(--amber)}
 .ht-line.bad{color:#ff6b6b}
 .ht-line.bold{font-weight:800}
+.ht-line.sep{color:#4d6b57;font-style:italic;text-align:center;border-top:1px dashed #17391f;margin-top:4px;padding-top:6px}
 .more{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
 .more summary{cursor:pointer;font-weight:600;color:var(--muted)}
 .more[open] summary{margin-bottom:10px}
@@ -403,6 +405,7 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
         <span class="chip" id="chipMs" hidden title="Time since you tapped Send">⏱ <b id="msVal">0</b></span>
         <span class="chip" id="chipHops" hidden title="Sorting stations passed">🔀 <b id="hopVal">0</b></span>
         <span class="chip" id="chipData" hidden title="Data used from your plan">📶 <b id="dataVal">0 B</b></span>
+        <span class="chip chipsafe" id="chipSafe" hidden title="On its way from your phone to your friend's — a hacker can never read it in transit, whatever else they try">🔒 On this trip: always safe</span>
         <span class="chip hintchip" id="hint" hidden>👆 Tap any icon</span>
         <div class="scene-ctl" id="sceneCtl"></div>
       </div>
@@ -435,6 +438,8 @@ footer{margin-top:18px;font-size:12.5px;color:var(--dim);text-align:center}
     <div class="opt hacker-opt"><span class="lbl">🕵️ Simulate a hacker watching?</span><div class="seg" data-bind="hacker"><button data-val="off">No</button><button data-val="on">Yes</button></div></div>
     <div class="opt hacker-opt" id="wifiSecOpt" hidden><span class="lbl">Does the hacker get onto your Wi-Fi?</span><div class="seg" data-bind="wifiSec"><button data-val="strong" title="Strong password">❌ No</button><button data-val="weak" title="Weak password">🎲 50/50</button><button data-val="open" title="Open network, no password">✅ Yes</button></div></div>
     <p class="hk-explainer" id="wifiSecNote" hidden>This only decides whether the hacker gets onto your network at all — a weak password really can go either way. Reading the message itself is never part of that bet: it always stays blocked by end-to-end encryption, whether they get in or not.</p>
+    <div class="opt hacker-opt" id="backupOpt" hidden><span class="lbl">📥 Your chat backup (Google Drive / iCloud)</span><div class="seg" data-bind="backup"><button data-val="on" title="Recommended — turn this on in WhatsApp settings">🔒 Encrypted</button><button data-val="off" title="Older default, before this feature existed">😬 Not encrypted</button></div></div>
+    <p class="hk-explainer" id="backupNote" hidden>This is the one real way old messages do get exposed — not by catching them on the way, but from an unencrypted backup sitting in your cloud account. If a hacker breaks into that account, an unencrypted backup opens right up. It has nothing to do with the message crossing the internet, and turning on encrypted backups (WhatsApp Settings → Chats → Chat backup) closes it completely.</p>
     <div class="opt"><label for="speed">Animation speed: <b id="speedOut">1×</b></label><input type="range" id="speed" min="0.25" max="3" step="0.25" value="1"></div>
   </div>
 </div>
@@ -481,7 +486,7 @@ function fmtBytes(n) { return n < 1000 ? Math.round(n) + ' B' : (n / 1000).toFix
 function dataAt(i) { return i <= 1 ? 0 : i === 2 ? cumBytes(0) : packetTotalBytes(state.myNet); }
 
 /* ---------------- state ---------------- */
-const state = { step: 0, msg: 'Hi!', cipher: '', mode: 'simple', myNet: 'wifi', friendNet: 'wifi', online: true, speed: 1, playing: false, paused: false, overview: false, hacker: false, wifiSec: 'strong' };
+const state = { step: 0, msg: 'Hi!', cipher: '', mode: 'simple', myNet: 'wifi', friendNet: 'wifi', online: true, speed: 1, playing: false, paused: false, overview: false, hacker: false, wifiSec: 'strong', backup: 'on' };
 const tech = () => state.mode === 'tech';
 const M = () => esc(state.msg);
 const SERVER = '198.51.100.60';
@@ -807,6 +812,7 @@ function renderHud() {
   $('#chipHops').hidden = !(state.step >= 3 && state.step <= 8);
   $('#dataVal').textContent = fmtBytes(state.data);
   $('#chipData').hidden = state.step < 2;
+  $('#chipSafe').hidden = !state.hacker;
   const t = $('.ttlb text', msgDot);
   if (t) t.textContent = 'TTL ' + hud.ttl;
 }
@@ -972,6 +978,15 @@ const STEPS = [
       $('#hkMsg').textContent = '🔒 Blocked — only your friend’s key opens this';
       w.classList.add('blocked');
       await termLine(g1, '[BLOCKED] Signal end-to-end encryption', 'bad bold');
+      if (state.backup === 'off') {
+        await wait(900, { ignoreSpeed: true });
+        await termLine(g1, '— giving up, trying your cloud backup instead —', 'sep');
+        await termLine(g1, 'check google-drive:/WhatsApp/Backups', 'cmd');
+        await termLine(g1, '[FOUND] backup.db (not end-to-end encrypted)', 'warn');
+        await termLine(g1, '[SUCCESS] read 1,204 old messages', 'bad bold');
+        await termLine(g1, '(today’s message isn’t backed up yet — only older ones)', 'muted');
+        $('#hkMsg').innerHTML = '🔒 This message: blocked<br><span style="color:var(--amber)">😬 Old backup: exposed</span>';
+      }
       await wait(1500, { ignoreSpeed: true });
       termHide();
     }
@@ -1365,9 +1380,11 @@ function updateControls() {
   $('#nextBtn').disabled = state.step === last;
 }
 function syncSegs() {
-  const cur = { mode: state.mode, myNet: state.myNet, friendNet: state.friendNet, online: state.online ? 'on' : 'off', hacker: state.hacker ? 'on' : 'off', wifiSec: state.wifiSec };
+  const cur = { mode: state.mode, myNet: state.myNet, friendNet: state.friendNet, online: state.online ? 'on' : 'off', hacker: state.hacker ? 'on' : 'off', wifiSec: state.wifiSec, backup: state.backup };
   $('#wifiSecOpt').hidden = !state.hacker;
   $('#wifiSecNote').hidden = !state.hacker;
+  $('#backupOpt').hidden = !state.hacker;
+  $('#backupNote').hidden = !state.hacker;
   $$('.seg[data-bind]').forEach(s => $$('button', s).forEach(b => {
     const on = b.dataset.val === cur[s.dataset.bind];
     b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
@@ -1383,12 +1400,13 @@ function setOpt(bind, val) {
     if (infoId) openInfo(infoId);
     return;
   }
-  if (bind === 'hacker' || bind === 'wifiSec') {
-    const b = [state.hacker, state.wifiSec].join();
+  if (bind === 'hacker' || bind === 'wifiSec' || bind === 'backup') {
+    const b = [state.hacker, state.wifiSec, state.backup].join();
     if (bind === 'hacker') state.hacker = val === 'on';
     if (bind === 'wifiSec') state.wifiSec = val;
+    if (bind === 'backup') state.backup = val;
     syncSegs();
-    if ([state.hacker, state.wifiSec].join() === b) return;
+    if ([state.hacker, state.wifiSec, state.backup].join() === b) return;
     if (state.playing) playAll(state.step); else runStep(state.step);
     return;
   }
